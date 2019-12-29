@@ -5,6 +5,7 @@ from .models import Art
 class ArtCreate(CreateView):
     model = Art
     fields = '__all__'
+    success_url = '/art/'
 
 def home(request):
     return render(request, 'home.html')
