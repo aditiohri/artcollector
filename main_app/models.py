@@ -1,4 +1,5 @@
 from django.db import models
+from django.urls import reverse
 
 class Art(models.Model):
     title = models.CharField(max_length=100)
@@ -9,3 +10,6 @@ class Art(models.Model):
 
     def __str__(self):
         return f'{self.title}'
+
+    def get_absolute_url(self):
+        return reverse('detail', kwargs={'cat_id': self.id})
