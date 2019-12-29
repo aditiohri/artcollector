@@ -3,12 +3,20 @@
 
 <h1>Art Details</h1>
 
-<div class="card-content">
-    <span class="card-title">{{ artwork.title }}</span>
-    <p>Artist: {{ artwork.artist }}</p>
-    <p>Description: {{ artwork.description }}</p>
-    <p>Media: {{ artwork.media }}</p>
-    <p>Created: {{ artwork.created }}</p>
+
+<div class="card">
+    <div class="card-content">
+        <span class="card-title">{{ artwork.title }}</span>
+        <p>Artist: {{ artwork.artist }}</p>
+        <p>Description: {{ artwork.description }}</p>
+        <p>Media: {{ artwork.media }}</p>
+        <p>Created: {{ artwork.created }}</p>
+    </div>
+    <div class="card-action">
+        <a href="{% url 'art_update' artwork.id %}">Edit</a> 
+        <a href="{% url 'art_delete' artwork.id %}">Delete</a>
+    </div>
 </div>
 
+    
 {% endblock %}
