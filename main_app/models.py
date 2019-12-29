@@ -12,4 +12,4 @@ class Art(models.Model):
         return f'{self.title}'
 
     def get_absolute_url(self):
-        return reverse('detail', kwargs={'cat_id': self.id})
+        return reverse('detail', kwargs={'art_id': self.id})
