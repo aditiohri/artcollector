@@ -1,10 +1,19 @@
 from django.shortcuts import render
-from django.views.generic.edit import CreateView
+from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from .models import Art
 
 class ArtCreate(CreateView):
     model = Art
     fields = '__all__'
+    success_url = '/art/'
+
+class ArtUpdate(UpdateView):
+    model = Art
+    fields = ['description', 'media']
+    success_url = '/art/'
+
+class ArtDelete(DeleteView):
+    model = Art
     success_url = '/art/'
 
 def home(request):
