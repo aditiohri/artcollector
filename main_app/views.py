@@ -23,13 +23,13 @@ def about(request):
     return render(request, 'about.html')
 
 def art_index(request):
-    artwork = Art.objects.all()
+    art = Art.objects.all()
     return render(request, 'art/index.html', {
-        'artwork': artwork
+        'art': art
     })
 
 def art_detail(request, art_id):
-    artwork = Art.objects.get(id=art_id)
+    art = Art.objects.get(id=art_id)
     return render(request, 'art/detail.html', {
-        'artwork': artwork
+        'art': art
     })

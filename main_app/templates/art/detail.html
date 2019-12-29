@@ -6,15 +6,15 @@
 
 <div class="card">
     <div class="card-content">
-        <span class="card-title">{{ artwork.title }}</span>
-        <p>Artist: {{ artwork.artist }}</p>
-        <p>Description: {{ artwork.description }}</p>
-        <p>Media: {{ artwork.media }}</p>
-        <p>Created: {{ artwork.created }}</p>
+        <span class="card-title">{{ art.title }}</span>
+        <p>Artist: {{ art.artist }}</p>
+        <p>Description: {{ art.description }}</p>
+        <p>Media: {{ art.media }}</p>
+        <p>Created: {{ art.created }}</p>
     </div>
     <div class="card-action">
-        <a href="{% url 'art_update' artwork.id %}">Edit</a> 
-        <a href="{% url 'art_delete' artwork.id %}">Delete</a>
+        <a href="{% url 'art_update' art.id %}">Edit</a> 
+        <a href="{% url 'art_delete' art.id %}">Delete</a>
     </div>
 </div>
 
