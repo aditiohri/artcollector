@@ -3,20 +3,42 @@
 
 <h1>Art Details</h1>
 
-
-<div class="card">
-    <div class="card-content">
-        <span class="card-title">{{ art.title }}</span>
-        <p>Artist: {{ art.artist }}</p>
-        <p>Description: {{ art.description }}</p>
-        <p>Media: {{ art.media }}</p>
-        <p>Created: {{ art.created }}</p>
+<div class="row">
+    <div class="card">
+        <div class="card">
+            <div class="card-content">
+                <span class="card-title">{{ art.title }}</span>
+                <p>Artist: {{ art.artist }}</p>
+                <p>Description: {{ art.description }}</p>
+                <p>Media: {{ art.media }}</p>
+                <p>Created: {{ art.created }}</p>
+            </div>
+            <div class="card-action">
+                <a href="{% url 'art_update' art.id %}">Edit</a> 
+                <a href="{% url 'art_delete' art.id %}">Delete</a>
+            </div>
+        </div>
     </div>
-    <div class="card-action">
-        <a href="{% url 'art_update' art.id %}">Edit</a> 
-        <a href="{% url 'art_delete' art.id %}">Delete</a>
+    <div class="col s6">
+        <table class="striped">
+            <thead>
+                <tr><th>Venue</th><th>Exhibition Dates</th></tr>
+            </thead>
+            <tbody>
+                {% for expo in art.exhibition_set.all %}
+                <tr>
+                    <td> {{ expo.venue }} </td>
+                    {% if expo.end_date %}
+                    <td> {{ expo.start_date }} - {{ expo.end_date }} </td>
+                    <td> {{ expo.get_show_display }} </td>
+                    {% else %}
+                    <td> On Permanent Display since {{ expo.start_date }} </td>
+                    {% endif %}
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
     </div>
 </div>
-
     
 {% endblock %}
