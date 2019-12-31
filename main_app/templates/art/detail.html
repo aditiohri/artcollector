@@ -38,7 +38,7 @@
                 {% endfor %}
             </tbody>
         </table>
-        <form method="post">
+        <form action="{% url 'add_expo' art.id %}" method="post">
             {% csrf_token %}
             {{ expo_form.as_p }}
             <input type="submit" class="btn" value="Add Exhibition">
@@ -60,5 +60,7 @@
       setDefaultDate: false,
       autoClose: true
     });
+    let selectEl = document.getElementById('id_show')
+    M.FormSelect.init(selectEl);
 </script>
 {% endblock %}
