@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from .models import Art
 from .forms import ExhibitionForm
@@ -38,4 +38,9 @@ def art_detail(request, art_id):
     })
 
 def add_expo(request, art_id):
-    pass
+    form = ExhibitionForm(request.POST)
+    if form.is_valid():
+        new_expo = form.save(commit=False)
+        new_expo.art_id = art_id
+        new_expo.save()
+    return redirect('detail', art_id=art_id)
