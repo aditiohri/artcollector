@@ -36,3 +36,6 @@ def art_detail(request, art_id):
         'art': art,
         'expo_form': expo_form
     })
+
+def add_expo(request, art_id):
+    pass
