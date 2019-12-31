@@ -34,3 +34,6 @@ class Exhibition(models.Model):
 
     def __str__(self):
         return f'{self.get_show_display()} starting {self.start_date}'
+
+    class Meta:
+        ordering = ['start_date']
