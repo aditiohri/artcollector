@@ -41,7 +41,7 @@ class Exhibition(models.Model):
 
 class Theme(models.Model):
     name = models.CharField(max_length=75)
-    keywords = models.Texfield()
+    keywords = models.TextField()
 
     def __str__(self):
         return self.name
