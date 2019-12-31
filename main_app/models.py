@@ -23,7 +23,7 @@ class Art(models.Model):
 
 class Exhibition(models.Model):
     start_date = models.DateField('Beginning of Exhibition')
-    end_date = models.DateField('Leave blank if on permanent display', blank=True, null=True)
+    end_date = models.DateField('End Date - Optional', blank=True, null=True)
     venue = models.TextField(max_length=150)
     show = models.CharField(
         max_length=1,
