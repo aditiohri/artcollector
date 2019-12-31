@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
-from .models import Art
+from django.views.generic import ListView, DetailView
+from .models import Art, Exhibition, Theme
 from .forms import ExhibitionForm
 
 class ArtCreate(CreateView):
@@ -44,3 +45,21 @@ def add_expo(request, art_id):
         new_expo.art_id = art_id
         new_expo.save()
     return redirect('detail', art_id=art_id)
+
+class ThemeList(ListView):
+    model = Theme
+
+class ThemeDetail(DetailView):
+    model = Theme
+
+class ThemeCreate(CreateView):
+    model = Theme
+    fields = '__all__'
+
+class ThemeUpdate(UpdateView):
+    model = Theme
+    fields = '__all__'
+
+class ThemeDelete(DeleteView):
+    model = Theme
+    success_url = '/themes/'
