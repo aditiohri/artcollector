@@ -38,7 +38,27 @@
                 {% endfor %}
             </tbody>
         </table>
+        <form method="post">
+            {% csrf_token %}
+            {{ expo_form.as_p }}
+            <input type="submit" class="btn" value="Add Exhibition">
+        </form>
     </div>
 </div>
-    
+<script>
+    let startDateEl = document.getElementById('id_start_date');
+    let endDateEl = document.getElementById('id_end_date');
+    M.Datepicker.init(startDateEl, {
+      format: 'yyyy-mm-dd',
+      defaultDate: new Date(),
+      setDefaultDate: true,
+      autoClose: true
+    });
+    M.Datepicker.init(endDateEl, {
+      format: 'yyyy-mm-dd',
+      defaultDate: new Date(),
+      setDefaultDate: false,
+      autoClose: true
+    });
+</script>
 {% endblock %}
