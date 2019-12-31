@@ -1,5 +1,6 @@
 from django.db import models
 from django.urls import reverse
+from datetime import date
 
 TYPES_OF_EXHIBITIONS = (
     ('S', 'Solo'),
@@ -37,3 +38,13 @@ class Exhibition(models.Model):
 
     class Meta:
         ordering = ['start_date']
+
+class Theme(models.Model):
+    name = models.CharField(max_length=75)
+    keywords = models.Texfield()
+
+    def __str__(self):
+        return self.name
+    
+    def get_absolute_url(self):
+        return reverse('toys_detail', kwargs={'pk': self.id})
