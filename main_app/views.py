@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from .models import Art
+from .forms import ExhibitionForm
 
 class ArtCreate(CreateView):
     model = Art
@@ -30,6 +31,8 @@ def art_index(request):
 
 def art_detail(request, art_id):
     art = Art.objects.get(id=art_id)
+    expo_form = ExhibitionForm()
     return render(request, 'art/detail.html', {
-        'art': art
+        'art': art,
+        'expo_form': expo_form
     })
