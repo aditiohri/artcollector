@@ -32,10 +32,12 @@ def art_index(request):
 
 def art_detail(request, art_id):
     art = Art.objects.get(id=art_id)
+    theme_art_doesnt_have = Theme.objects.exclude(id__in = art.themes.all().values_list('id'))
     expo_form = ExhibitionForm()
     return render(request, 'art/detail.html', {
         'art': art,
-        'expo_form': expo_form
+        'expo_form': expo_form,
+        'themes': theme_art_doesnt_have
     })
 
 def add_expo(request, art_id):
