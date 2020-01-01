@@ -3,6 +3,8 @@ from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.views.generic import ListView, DetailView
 from django.contrib.auth import login
 from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
 from .forms import ExhibitionForm
 from .models import Art, Exhibition, Theme
 import uuid
@@ -11,7 +13,7 @@ import boto3
 S3_BASE_URL = 'https://s3-us-west-1.amazonaws.com/'
 BUCKET = 'artcollector-sei'
 
-class ArtCreate(CreateView):
+class ArtCreate(LoginRequiredMixin, CreateView):
     model = Art
     fields = ['title', 'artist', 'created', 'description', 'media']
     success_url = '/art/'
@@ -20,12 +22,12 @@ class ArtCreate(CreateView):
         form.instance.user = self.request.user
         return super().form_valid(form)
 
-class ArtUpdate(UpdateView):
+class ArtUpdate(LoginRequiredMixin, UpdateView):
     model = Art
     fields = ['description', 'media']
     success_url = '/art/'
 
-class ArtDelete(DeleteView):
+class ArtDelete(LoginRequiredMixin, DeleteView):
     model = Art
     success_url = '/art/'
 
@@ -35,12 +37,14 @@ def home(request):
 def about(request):
     return render(request, 'about.html')
 
+@login_required
 def art_index(request):
-    art = Art.objects.all()
+    art = Art.objects.filter(user=request.user)
     return render(request, 'art/index.html', {
         'art': art
     })
 
+@login_required
 def art_detail(request, art_id):
     art = Art.objects.get(id=art_id)
     theme_art_doesnt_have = Theme.objects.exclude(id__in = art.themes.all().values_list('id'))
@@ -51,14 +55,17 @@ def art_detail(request, art_id):
         'themes': theme_art_doesnt_have
     })
 
+@login_required
 def assoc_theme(request, art_id, theme_id):
     Art.objects.get(id=art_id).themes.add(theme_id)
     return redirect('detail', art_id=art_id)
 
+@login_required
 def unassoc_theme(request, art_id, theme_id):
     Art.objects.get(id=art_id).themes.remove(theme_id)
     return redirect('detail', art_id=art_id)
 
+@login_required
 def add_expo(request, art_id):
     form = ExhibitionForm(request.POST)
     if form.is_valid():
@@ -67,23 +74,23 @@ def add_expo(request, art_id):
         new_expo.save()
     return redirect('detail', art_id=art_id)
 
-class ThemeList(ListView):
+class ThemeList(LoginRequiredMixin, ListView):
     model = Theme
 
-class ThemeDetail(DetailView):
+class ThemeDetail(LoginRequiredMixin, DetailView):
     model = Theme
 
-class ThemeCreate(CreateView):
-    model = Theme
-    fields = '__all__'
-    success_url = '/themes/'
-
-class ThemeUpdate(UpdateView):
+class ThemeCreate(LoginRequiredMixin, CreateView):
     model = Theme
     fields = '__all__'
     success_url = '/themes/'
 
-class ThemeDelete(DeleteView):
+class ThemeUpdate(LoginRequiredMixin, UpdateView):
+    model = Theme
+    fields = '__all__'
+    success_url = '/themes/'
+
+class ThemeDelete(LoginRequiredMixin, DeleteView):
     model = Theme
     success_url = '/themes/'
 
