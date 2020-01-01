@@ -18,4 +18,5 @@ urlpatterns = [
     path('themes/create/', views.ThemeCreate.as_view(), name='theme_create'),
     path('themes/<int:pk>/update/', views.ThemeUpdate.as_view(), name='theme_update'),
     path('themes/<int:pk>/delete/', views.ThemeDelete.as_view(), name='theme_delete'),
+    path('accounts/signup/', views.signup, name='signup'),
 ]
