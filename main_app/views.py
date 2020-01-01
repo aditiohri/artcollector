@@ -1,10 +1,12 @@
 from django.shortcuts import render, redirect
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.views.generic import ListView, DetailView
+from django.contrib.auth import login
+from django.contrib.auth.forms import UserCreationForm
+from .forms import ExhibitionForm
+from .models import Art, Exhibition, Theme
 import uuid
 import boto3
-from .models import Art, Exhibition, Theme
-from .forms import ExhibitionForm
 
 S3_BASE_URL = 'https://s3-us-west-1.amazonaws.com/'
 BUCKET = 'artcollector-sei'
@@ -13,6 +15,10 @@ class ArtCreate(CreateView):
     model = Art
     fields = ['title', 'artist', 'created', 'description', 'media']
     success_url = '/art/'
+
+    def form_valid(self, form):
+        form.instance.user = self.request.user
+        return super().form_valid(form)
 
 class ArtUpdate(UpdateView):
     model = Art
@@ -89,8 +95,10 @@ def add_photo(request, art_id):
         try: 
             s3.upload_fileobj(photo_file, BUCKET, key)
             url = f"{S3_BASE_URL}{BUCKET}/{key}"
+            print('url:', url)
             photo = Photo(url=url, art_id=art_id)
             photo.save()
+            print(photo, 'photo saved')
         except:
             print('An error occurred uploading file to S3')
     return redirect('detail', art_id=art_id)
