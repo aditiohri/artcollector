@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<h1>All Themes</h1>
+
+{% for theme in theme_list %}
+  <a href="{% url 'theme_detail' theme.id %}">
+    <div class="card">
+        <div class="card-content">
+            <span class="card-title">{{ theme.name }}</span>
+            <p>Keywords: {{ theme.keywords }}</p>
+        </div>
+        <div class="card-action">
+          <a href="{% url 'theme_update' theme.id %}">Edit</a>
+          <a href="{% url 'theme_delete' theme.id %}">Delete</a>
+        </div>
+    </div>
+  </a>
+{% endfor %}
+
+{% endblock %}
