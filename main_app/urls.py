@@ -11,6 +11,7 @@ urlpatterns = [
     path('art/<int:pk>/delete', views.ArtDelete.as_view(), name='art_delete'),
     path('art/<int:art_id>/add_expo', views.add_expo, name='add_expo'),
     path('art/<int:art_id>/assoc_theme/<int:theme_id>/', views.assoc_theme, name='assoc_theme'),
+    path('art/<int:art_id>/unassoc_theme/<int:theme_id>/', views.unassoc_theme, name='unassoc_theme'),
     path('themes/', views.ThemeList.as_view(), name='theme_index'),
     path('themes/<int:pk>', views.ThemeDetail.as_view(), name='theme_detail'),
     path('themes/create/', views.ThemeCreate.as_view(), name='theme_create'),
