@@ -51,7 +51,7 @@ class Exhibition(models.Model):
         ordering = ['start_date']
 
 class Photo(models.Model):
-    url = models.CharField(max_length=200)
+    url = models.CharField(max_length=300)
     art = models.ForeignKey(Art, on_delete=models.CASCADE)
 
     def __str__(self):
