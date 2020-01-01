@@ -44,6 +44,10 @@ def assoc_theme(request, art_id, theme_id):
     Art.objects.get(id=art_id).themes.add(theme_id)
     return redirect('detail', art_id=art_id)
 
+def unassoc_theme(request, art_id, theme_id):
+    Art.objects.get(id=art_id).themes.remove(theme_id)
+    return redirect('detail', art_id=art_id)
+
 def add_expo(request, art_id):
     form = ExhibitionForm(request.POST)
     if form.is_valid():
