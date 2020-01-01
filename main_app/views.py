@@ -1,18 +1,13 @@
 from django.shortcuts import render, redirect
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.views.generic import ListView, DetailView
-import os
 import uuid
 import boto3
 from .models import Art, Exhibition, Theme
 from .forms import ExhibitionForm
 
-S3_BASE_URL = 'https://s3.us-west-1.amazonaws.com'
-BUCKET = 'catcollector'
-
-def get_secret_key(request):
-    access_key = os.environ['aws_access_key_id']
-    secret_key = os.environ['aws_secret_access_key']
+S3_BASE_URL = 'https://s3-us-west-1.amazonaws.com/'
+BUCKET = 'artcollector-sei'
 
 class ArtCreate(CreateView):
     model = Art
