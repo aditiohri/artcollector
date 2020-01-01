@@ -6,7 +6,7 @@ from .forms import ExhibitionForm
 
 class ArtCreate(CreateView):
     model = Art
-    fields = '__all__'
+    fields = ['title', 'artist', 'created', 'description', 'media']
     success_url = '/art/'
 
 class ArtUpdate(UpdateView):
@@ -55,10 +55,12 @@ class ThemeDetail(DetailView):
 class ThemeCreate(CreateView):
     model = Theme
     fields = '__all__'
+    success_url = '/themes/'
 
 class ThemeUpdate(UpdateView):
     model = Theme
     fields = '__all__'
+    success_url = '/themes/'
 
 class ThemeDelete(DeleteView):
     model = Theme
