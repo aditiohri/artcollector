@@ -54,7 +54,7 @@
         <div class="card">
             <div class="card-content">
                 <span class="card-title">
-                    <span style="purple">{{theme.name}}</span>
+                    <span class="purple-text">{{theme.name}}</span>
                     <ul>
                         <li>{{theme.keywords}}</li>
                     </ul>
@@ -66,6 +66,31 @@
         <h5>No Themes Associated with this Artwork</h5>
         {% endif %}
     </div>
+</div>
+<div class="col s6">
+    <h3>Available Themes</h3>
+    {% if themes.count %}
+        {% for theme in themes.all %}
+        <div class="card">
+            <div class="card-content">
+                <span class="card-title">
+                    <span class="green-text">{{theme.name}}</span>
+                    <ul>
+                        <li>{{theme.keywords}}</li>
+                    </ul>
+                </span>
+            </div>
+            <div class="card-action">
+                <form action="{% url 'assoc_theme' art.id theme.id %}" method="post">
+                    {% csrf_token %}
+                    <button type="submit" class="btn">Add</button>
+                  </form>
+            </div>
+        </div>
+        {% endfor %}
+    {% else %}
+        <h5>{{art.title}} includes all of your themes!</h5>
+    {% endif %}
 </div>
 <script>
     let startDateEl = document.getElementById('id_start_date');
