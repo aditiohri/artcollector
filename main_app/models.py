@@ -9,12 +9,23 @@ TYPES_OF_EXHIBITIONS = (
     ('P', 'Permanent'),
 )
 
+class Theme(models.Model):
+    name = models.CharField(max_length=75)
+    keywords = models.TextField()
+
+    def __str__(self):
+        return self.name
+    
+    def get_absolute_url(self):
+        return reverse('theme_detail', kwargs={'pk': self.id})
+
 class Art(models.Model):
     title = models.CharField(max_length=100)
     artist = models.CharField(max_length=100)
     created = models.TextField(max_length=4)
     description = models.TextField(max_length=500)
     media = models.TextField(max_length=100)
+    themes = models.ManyToManyField(Theme)
 
     def __str__(self):
         return f'{self.title}'
@@ -39,12 +50,3 @@ class Exhibition(models.Model):
     class Meta:
         ordering = ['start_date']
 
-class Theme(models.Model):
-    name = models.CharField(max_length=75)
-    keywords = models.TextField()
-
-    def __str__(self):
-        return self.name
-    
-    def get_absolute_url(self):
-        return reverse('toys_detail', kwargs={'pk': self.id})
