@@ -6,9 +6,9 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from .forms import ExhibitionForm
-from .models import Art, Exhibition, Theme
 import uuid
 import boto3
+from .models import Art, Exhibition, Theme, Photo
 
 S3_BASE_URL = 'https://s3-us-west-1.amazonaws.com/'
 BUCKET = 'artcollector-sei'
@@ -74,6 +74,23 @@ def add_expo(request, art_id):
         new_expo.save()
     return redirect('detail', art_id=art_id)
 
+@login_required
+def add_photo(request, art_id):
+    photo_file = request.FILES.get('photo-file', None)
+    if photo_file:
+        s3 = boto3.client('s3')
+        key = uuid.uuid4().hex[:6] + photo_file.name[photo_file.name.rfind('.'):]
+        try: 
+            s3.upload_fileobj(photo_file, BUCKET, key)
+            url = f"{S3_BASE_URL}{BUCKET}/{key}"
+            print('url:', url)
+            photo = Photo(url=url, art_id=art_id)
+            photo.save()
+            print(photo, 'photo saved')
+        except:
+            print('An error occurred uploading file to S3')
+    return redirect('detail', art_id=art_id)
+
 class ThemeList(LoginRequiredMixin, ListView):
     model = Theme
 
@@ -93,22 +110,6 @@ class ThemeUpdate(LoginRequiredMixin, UpdateView):
 class ThemeDelete(LoginRequiredMixin, DeleteView):
     model = Theme
     success_url = '/themes/'
-
-def add_photo(request, art_id):
-    photo_file = request.FILES.get('photo-file', None)
-    if photo_file:
-        s3 = boto3.client('s3')
-        key = uuid.uuid4().hex[:6] + photo_file.name[photo_file.name.rfind('.'):]
-        try: 
-            s3.upload_fileobj(photo_file, BUCKET, key)
-            url = f"{S3_BASE_URL}{BUCKET}/{key}"
-            print('url:', url)
-            photo = Photo(url=url, art_id=art_id)
-            photo.save()
-            print(photo, 'photo saved')
-        except:
-            print('An error occurred uploading file to S3')
-    return redirect('detail', art_id=art_id)
 
 def signup(request):
     error_message = ''
